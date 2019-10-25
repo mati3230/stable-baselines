@@ -32,7 +32,7 @@ class ExpertDataset(object):
     """
 
     def __init__(self, expert_path=None, traj_data=None, train_fraction=0.7, batch_size=64,
-                 traj_limitation=-1, randomize=True, verbose=1, sequential_preprocessing=False):
+                 traj_limitation=-1, randomize=True, verbose=1, sequential_preprocessing=False, special_shape=None):
         if traj_data is not None and expert_path is not None:
             raise ValueError("Cannot specify both 'traj_data' and 'expert_path'")
         if traj_data is None and expert_path is None:
@@ -66,8 +66,9 @@ class ExpertDataset(object):
         # and S is the environment observation/action space.
         # S = (1, ) for discrete space
         # Flatten to (N * L, prod(S))
-        if len(observations.shape) > 2:
-            observations = np.reshape(observations, [-1, np.prod(observations.shape[1:])])
+        if not special_shape:
+            if len(observations.shape) > 2:
+                observations = np.reshape(observations, [-1, np.prod(observations.shape[1:])])
         if len(actions.shape) > 2:
             actions = np.reshape(actions, [-1, np.prod(actions.shape[1:])])
 
