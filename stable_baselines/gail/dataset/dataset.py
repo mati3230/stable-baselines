@@ -307,6 +307,7 @@ class DataLoader(object):
         if is_pc:
             pc_data = np.load(image_path)
             pc = pc_data["obs"]
+            pc = np.expand_dims(pc, axis=0)
             return pc
         # cv2.IMREAD_UNCHANGED is needed to load
         # grey and RGBa images
