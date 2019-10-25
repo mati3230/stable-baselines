@@ -69,8 +69,9 @@ class ExpertDataset(object):
         if not special_shape:
             if len(observations.shape) > 2:
                 observations = np.reshape(observations, [-1, np.prod(observations.shape[1:])])
-        if len(actions.shape) > 2:
-            actions = np.reshape(actions, [-1, np.prod(actions.shape[1:])])
+        if not special_shape:
+            if len(actions.shape) > 2:
+                actions = np.reshape(actions, [-1, np.prod(actions.shape[1:])])
 
         indices = np.random.permutation(len(observations)).astype(np.int64)
 
