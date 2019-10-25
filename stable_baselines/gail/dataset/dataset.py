@@ -69,7 +69,6 @@ class ExpertDataset(object):
         if not special_shape:
             if len(observations.shape) > 2:
                 observations = np.reshape(observations, [-1, np.prod(observations.shape[1:])])
-        if not special_shape:
             if len(actions.shape) > 2:
                 actions = np.reshape(actions, [-1, np.prod(actions.shape[1:])])
 
@@ -297,13 +296,18 @@ class DataLoader(object):
                 self.queue.put(None)
 
     @classmethod
-    def _make_batch_element(cls, image_path):
+    def _make_batch_element(cls, image_path, is_pc=True):
         """
         Process one element.
 
         :param image_path: (str) path to an image
+        :param pc_path: (str) path to point cloud
         :return: (np.ndarray)
         """
+        if is_pc:
+            pc_data = np.load(image_path)
+            pc = pc_data["obs"]
+            return pc
         # cv2.IMREAD_UNCHANGED is needed to load
         # grey and RGBa images
         image = cv2.imread(image_path, cv2.IMREAD_UNCHANGED)
