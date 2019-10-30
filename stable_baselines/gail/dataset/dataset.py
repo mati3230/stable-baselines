@@ -307,6 +307,10 @@ class DataLoader(object):
         if is_pc:
             pc_data = np.load(image_path)
             pc = pc_data["obs"]
+            for i in range(pc.shape[-1]):
+                mean = np.mean(pc[:,:,:,i])
+                std = np.std(pc[:,:,:,i])
+                pc[:,:,:,i] = (pc[:,:,:,i] - mean) / std
             pc = np.expand_dims(pc, axis=0)
             return pc
         # cv2.IMREAD_UNCHANGED is needed to load
