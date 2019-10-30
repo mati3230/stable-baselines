@@ -31,7 +31,6 @@ def observation_input(ob_space, batch_size=None, name='Ob', scale=False):
 
             # equivalent to processed_observations / 255.0 when bounds are set to [255, 0]
             processed_observations = ((processed_observations - ob_space.low) / (ob_space.high - ob_space.low))
-            print("processed_observations can be used")
         return observation_ph, processed_observations
 
     elif isinstance(ob_space, MultiBinary):
