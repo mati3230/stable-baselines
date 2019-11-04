@@ -307,6 +307,7 @@ class BaseRLModel(ABC):
                     actions_ph: expert_actions,
                 }
                 train_loss_, _ = self.sess.run([loss, optim_op], feed_dict)
+                #print(train_loss_)
                 train_loss += train_loss_
 
             train_loss /= len(dataset.train_loader)
@@ -314,6 +315,7 @@ class BaseRLModel(ABC):
             if self.verbose > 0 and (epoch_idx + 1) % val_interval == 0:
                 val_loss = 0.0
                 # Full pass on the validation set
+                '''
                 for _ in range(len(dataset.val_loader)):
                     expert_obs, expert_actions = dataset.get_next_batch('val')
                     val_loss_, = self.sess.run([loss], {obs_ph: expert_obs,
@@ -321,6 +323,7 @@ class BaseRLModel(ABC):
                     val_loss += val_loss_
 
                 val_loss /= len(dataset.val_loader)
+                '''
                 if self.verbose > 0:
                     print("==== Training progress {:.2f}% ====".format(100 * (epoch_idx + 1) / n_epochs))
                     print('Epoch {}'.format(epoch_idx + 1))
