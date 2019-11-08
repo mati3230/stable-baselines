@@ -302,6 +302,8 @@ class BaseRLModel(ABC):
             # Full pass on the training set
             for _ in range(len(dataset.train_loader)):
                 expert_obs, expert_actions = dataset.get_next_batch('train')
+                #print(expert_obs[0,:,0])
+                #print(np.mean(expert_obs[0,:,0]))
                 feed_dict = {
                     obs_ph: expert_obs,
                     actions_ph: expert_actions,

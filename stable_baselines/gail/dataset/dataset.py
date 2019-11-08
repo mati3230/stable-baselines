@@ -283,7 +283,8 @@ class DataLoader(object):
                         else:
                             obs = parallel(delayed(self._make_batch_element)(image_path)
                                            for image_path in obs)
-
+                        if len(obs) == 0:
+                            continue
                         obs = np.concatenate(obs, axis=0)
 
                     actions = self.actions[self._minibatch_indices]
