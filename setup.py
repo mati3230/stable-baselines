@@ -9,6 +9,7 @@ if sys.version_info.major != 3:
 
 # Check tensorflow installation to avoid
 # breaking pre-installed tf gpu
+'''
 install_tf, tf_gpu = False, False
 try:
     import tensorflow as tf
@@ -32,7 +33,7 @@ if install_tf:
     tf_dependency = ['tensorflow-gpu>=1.8.0,<2.0.0'] if tf_gpu else ['tensorflow>=1.8.0,<2.0.0']
     if tf_gpu:
         print("A GPU was detected, tensorflow-gpu will be installed")
-
+'''
 
 long_description = """
 [![Build Status](https://travis-ci.com/hill-a/stable-baselines.svg?branch=master)](https://travis-ci.com/hill-a/stable-baselines) [![Documentation Status](https://readthedocs.org/projects/stable-baselines/badge/?version=master)](https://stable-baselines.readthedocs.io/en/master/?badge=master) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/3bcb4cd6d76a4270acb16b5fe6dd9efa)](https://www.codacy.com/app/baselines_janitors/stable-baselines?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=hill-a/stable-baselines&amp;utm_campaign=Badge_Grade) [![Codacy Badge](https://api.codacy.com/project/badge/Coverage/3bcb4cd6d76a4270acb16b5fe6dd9efa)](https://www.codacy.com/app/baselines_janitors/stable-baselines?utm_source=github.com&utm_medium=referral&utm_content=hill-a/stable-baselines&utm_campaign=Badge_Coverage)
@@ -114,7 +115,9 @@ setup(name='stable_baselines',
           'numpy',
           'pandas',
           'matplotlib'
-      ] + tf_dependency,
+      ]
+      # + tf_dependency
+      ,
       extras_require={
         'mpi': [
             'mpi4py',
