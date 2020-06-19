@@ -687,9 +687,11 @@ class BaseRLModel(ABC):
                 raise ValueError("Error: Unexpected observation shape {} for ".format(observation.shape) +
                                  "Discrete environment, please use (1,) or (n_env, 1) for the observation shape.")
         elif isinstance(observation_space, gym.spaces.MultiDiscrete):
+            return True
+            # TODO why assuming a specific shape?
             if observation.shape == (len(observation_space.nvec),):
                 return False
-            elif len(observation.shape) == 2 and observation.shape[1] == len(observation_space.nvec):
+            elif len(observation.shape) == 3 and observation.shape[1] == len(observation_space.nvec):
                 return True
             else:
                 raise ValueError("Error: Unexpected observation shape {} for MultiDiscrete ".format(observation.shape) +

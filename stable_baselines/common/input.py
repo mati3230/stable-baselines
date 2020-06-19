@@ -39,13 +39,32 @@ def observation_input(ob_space, batch_size=None, name='Ob', scale=False):
         return observation_ph, processed_observations
 
     elif isinstance(ob_space, MultiDiscrete):
-        observation_ph = tf.placeholder(shape=(batch_size, len(ob_space.nvec)), dtype=tf.int32, name=name)
+        # observation_ph = tf.placeholder(shape=(batch_size, len(ob_space.nvec)), dtype=tf.int32, name=name)
+        # print(len(ob_space.nvec), len(ob_space.nvec[0]))
+        # space = (len(ob_space.nvec), len(ob_space.nvec[0]))
+        # print(ob_space.nvec.shape)
+
+        obs_ph_space = (batch_size, ) + ob_space.nvec.shape
+        # print(obs_ph_space)
+        observation_ph = tf.placeholder(shape=obs_ph_space, dtype=tf.int32, name=name)
+        # print(observation_ph)
+        """
+        split = tf.split(observation_ph, len(ob_space.nvec), axis=-1)
+        enum = enumerate(split)
+        lst = []
+        for item in enum:
+            print(item[0], item[1])
+            one_hot = tf.one_hot(observation_ph, 10)
+            cast = tf.cast(one_hot, tf.float32)
+            lst.append(cast)
+        concat = tf.concat(lst, axis=-1)
+        """
+        # """
         processed_observations = tf.concat([
-            tf.cast(tf.one_hot(input_split, ob_space.nvec[i]), tf.float32) for i, input_split
+            tf.cast(tf.one_hot(input_split, len(ob_space.nvec[i])), tf.float32) for i, input_split
             in enumerate(tf.split(observation_ph, len(ob_space.nvec), axis=-1))
         ], axis=-1)
         return observation_ph, processed_observations
-
     else:
         raise NotImplementedError("Error: the model does not support input space of type {}".format(
             type(ob_space).__name__))
